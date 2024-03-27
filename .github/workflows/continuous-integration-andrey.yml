@@ -1,14 +1,31 @@
-name: Continuous Integration Workflow
+name: Continuous Integration
 
+# Define cuándo se ejecutará el workflow
 on:
   push:
     branches: [ master ]
 
+# Define los jobs a ejecutar
 jobs:
-  build:
+  build-and-test:
+    # Especifica la máquina donde se ejecutará el job
     runs-on: ubuntu-latest
 
     steps:
+    # Paso para hacer checkout de tu código
     - uses: actions/checkout@v2
-    - name: Echo SAST Tests
+      name: Checkout code
+
+    # Paso para ejecutar pruebas de SAST
+    - name: Pruebas de SAST
       run: echo "Ejecución de pruebas de SAST"
+
+    # Paso para crear archivo de credenciales
+    - name: Crear archivo de credenciales
+      run: |
+        echo USERNAME=${{ secrets.USERNAME }} > credentials.ini
+        echo PASSWORD=${{ secrets.PASSWORD }} >> credentials.ini
+
+    # Paso para construir el contenedor de Docker
+    - name: Build docker image
+      run: docker build -t devops_ws . --tag devops_ws:$(date +%s)
