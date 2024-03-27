@@ -28,7 +28,6 @@ jobs:
           echo "El archivo allow_pull_request.txt no existe. Impidiendo Pull Request."
           echo "::set-output name=ALLOW::false"
         fi
-
     # Paso condicional para decidir si se permite el Pull Request
     - name: Permitir Pull Request
       if: steps.check_file.outputs.ALLOW == 'true'

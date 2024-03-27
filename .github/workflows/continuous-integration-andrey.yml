@@ -29,6 +29,7 @@ jobs:
         echo USERNAME=${{ secrets.USERNAME }} > credentials.ini
         echo PASSWORD=${{ secrets.PASSWORD }} >> credentials.ini
 
+        
     # Paso para construir el contenedor de Docker
     - name: Build docker image
       run: docker build -t devops_ws . --tag devops_ws:$(date +%s)
