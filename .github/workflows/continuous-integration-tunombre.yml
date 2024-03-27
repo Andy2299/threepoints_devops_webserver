@@ -1,0 +1,14 @@
+name: Continuous Integration Workflow
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Echo SAST Tests
+      run: echo "Ejecución de pruebas de SAST"
