@@ -3,7 +3,10 @@ name: Continuous Integration
 # Define cuándo se ejecutará el workflow
 on:
   push:
-    branches: [ master ]
+    branches:
+      - master
+      - feature/**  # Cualquier rama que comience por 'feature/'
+      - hotfix/**   # Cualquier rama que comience por 'hotfix/'
 
 # Define los jobs a ejecutar
 jobs:

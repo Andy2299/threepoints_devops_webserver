@@ -1,0 +1,42 @@
+name: Pull Request Analysis
+
+# Define cuándo se ejecutará el workflow
+on:
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  analyze-and-check:
+    runs-on: ubuntu-latest
+    steps:
+    # Paso para hacer checkout 
+    - uses: actions/checkout@v2
+      name: Checkout code
+
+    # Paso para simular análisis de código
+    - name: Analizar el código
+      run: echo "Realizando análisis de SAST"
+
+    # Paso para comprobar requisitos
+    - name: Comprobar si se permite el Pull Request
+      id: check_file
+      run: |
+        if [ -f "allow_pull_request.txt" ]; then
+          echo "El archivo allow_pull_request.txt existe. Permitiendo Pull Request."
+          echo "::set-output name=ALLOW::true"
+        else
+          echo "El archivo allow_pull_request.txt no existe. Impidiendo Pull Request."
+          echo "::set-output name=ALLOW::false"
+        fi
+
+    # Paso condicional para decidir si se permite el Pull Request
+    - name: Permitir Pull Request
+      if: steps.check_file.outputs.ALLOW == 'true'
+      run: echo "Pull Request permitido"
+
+    # Paso condicional para impedir el Pull Request
+    - name: Impedir Pull Request
+      if: steps.check_file.outputs.ALLOW == 'false'
+      run: |
+        echo "Pull Request impedido"
+        exit 1
